@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        登录页
+        登录页面
     </div>
 
 </template>
@@ -15,7 +15,7 @@ export default{
 
 <style lang="scss">
 .login{
-    background-color:blue;
+    background-color:rgb(147, 147, 220);
     height:100%;
 }
 html,body,#app{
