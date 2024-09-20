@@ -2,46 +2,141 @@
     <div class="login">
         <div class="login-con">
             <ul class="menu-tab">
-            <li v-for="(v) in MenueDate" :class="{current :v.current}" :key="v.type" @click="clickMenu(v)">
-                {{ v.txt }}
-            </li>
-        </ul>
+                <li v-for="(v) in MenueDate" :class="{ current: v.current }" :key="v.type" @click="clickMenu(v)">
+                    {{ v.txt }}
+                </li>
+            </ul>
+            <!-- 表单部分 -->
+            <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules"
+                label-width="auto" class="demo-ruleForm">
+                <el-form-item prop="pass">
+                    <label>你好</label>
+                    <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+                </el-form-item>
+                <el-form-item prop="checkPass">
+                    <label>密码</label>
+                    <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+                </el-form-item>
+                <el-form-item prop="age">
+                    <label>重复密码</label>
+                    <el-input v-model.number="ruleForm.age" />
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" class="login_btn block" @click="submitForm(ruleFormRef)">
+                        登录
+                    </el-button>
+                    <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
+                </el-form-item>
+            </el-form>
         </div>
     </div>
-
 </template>
 
 <script lang="ts" setup>
 
-    import { reactive } from 'vue';
+import { reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
 
-    const MenueDate=reactive([
-        {txt:"登录",current:true, type:"login"},
-        {txt:"注册",current:false, type:"login"}
-    ])
+const MenueDate = reactive([
+    { txt: "登录", current: true, type: "login" },
+    { txt: "注册", current: false, type: "login" }
+])
 
-    let clickMenu=(item:any)=>{
-        MenueDate.forEach((elemt)=>{
-            elemt.current=false
-        })
-        item.current =true
+let clickMenu = (item: any) => {
+    MenueDate.forEach((elemt) => {
+        elemt.current = false
+    })
+    item.current = true
+}
+
+
+
+const ruleFormRef = ref<FormInstance>()
+
+const checkAge = (rule: any, value: any, callback: any) => {
+    if (!value) {
+        return callback(new Error('Please input the age'))
     }
+    setTimeout(() => {
+        if (!Number.isInteger(value)) {
+            callback(new Error('Please input digits'))
+        } else {
+            if (value < 18) {
+                callback(new Error('Age must be greater than 18'))
+            } else {
+                callback()
+            }
+        }
+    }, 1000)
+}
+
+const validatePass = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('Please input the password'))
+    } else {
+        if (ruleForm.checkPass !== '') {
+            if (!ruleFormRef.value) return
+            ruleFormRef.value.validateField('checkPass')
+        }
+        callback()
+    }
+}
+const validatePass2 = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('Please input the password again'))
+    } else if (value !== ruleForm.pass) {
+        callback(new Error("Two inputs don't match!"))
+    } else {
+        callback()
+    }
+}
+
+const ruleForm = reactive({
+    pass: '',
+    checkPass: '',
+    age: '',
+})
+
+const rules = reactive<FormRules<typeof ruleForm>>({
+    pass: [{ validator: validatePass, trigger: 'blur' }],
+    checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+    age: [{ validator: checkAge, trigger: 'blur' }],
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.validate((valid: any) => {
+        if (valid) {
+            console.log('submit!')
+        } else {
+            console.log('error submit!')
+        }
+    })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+}
 
 </script>
 
 <style lang="scss">
-.login{
-    background-color:rgb(147, 147, 220);
-    height:100%;
+.login {
+    background-color: rgb(147, 147, 220);
+    height: 100%;
 }
+
 html,
 body,
-#app{
-    height:100%;
+#app {
+    height: 100%;
 }
-.menu-tab{
+
+.menu-tab {
     text-align: center;
-    li{
+
+    li {
         display: inline-block;
         width: 88px;
         line-height: 36px;
@@ -52,9 +147,27 @@ body,
 
     }
 
-    .current{
+    .current {
         background-color: aqua;
     }
 }
 
+.demo-ruleForm{
+    width: 30%;
+    margin: 50px auto;
+    label{
+        display: block;
+        margin-bottom: 3px;
+        font-size: 14px;
+        color: aliceblue;
+    }
+    .block{
+        display: block;
+        width: 100%;
+    }
+    .login_btn{
+        margin-top: 20px;
+
+    }
+}
 </style>
