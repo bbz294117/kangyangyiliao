@@ -35,6 +35,7 @@
 <script lang="ts" setup>
 
 import { reactive, ref } from 'vue'
+import { RouterLink,RouterView } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
 
 const MenueDate = reactive([
