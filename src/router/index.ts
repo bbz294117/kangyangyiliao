@@ -26,6 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/main/mainMage.vue')
 
   },
+  {
+    path: '/machine',
+    name: 'machine',
+    component: () => import('../views/main/machineMenu.vue')
+
+  },
 ]
 
 const router = createRouter({
