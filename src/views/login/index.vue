@@ -10,20 +10,20 @@
             <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules"
                 label-width="auto" class="demo-ruleForm">
                 <el-form-item prop="pass">
-                    <label>你好</label>
-                    <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+                    <label>邮箱</label>
+                    <el-input v-model="ruleForm.userName" type="text" autocomplete="off" />
                 </el-form-item>
-                <el-form-item prop="checkPass">
+                <el-form-item prop="password">
                     <label>密码</label>
-                    <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+                    <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
                 </el-form-item>
-                <el-form-item prop="age">
+                <el-form-item prop="age" v-show="model==='register'">
                     <label>重复密码</label>
                     <el-input v-model.number="ruleForm.age" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" class="login_btn block" @click="submitForm(ruleFormRef)">
-                        登录
+                        {{ model==="login"?'登录':'注册' }}
                     </el-button>
                     <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
                 </el-form-item>
@@ -35,18 +35,23 @@
 <script lang="ts" setup>
 
 import { reactive, ref } from 'vue'
+import { RouterLink,RouterView } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
 
 const MenueDate = reactive([
     { txt: "登录", current: true, type: "login" },
-    { txt: "注册", current: false, type: "login" }
+    { txt: "注册", current: false, type: "register" }
 ])
+
+let model = ref("login")
 
 let clickMenu = (item: any) => {
     MenueDate.forEach((elemt) => {
         elemt.current = false
     })
     item.current = true
+
+    model.value = item.type;
 }
 
 
@@ -92,6 +97,8 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 }
 
 const ruleForm = reactive({
+    userName: '',
+    password:'',
     pass: '',
     checkPass: '',
     age: '',

@@ -1924,7 +1924,7 @@
   dependencies:
     "@vue/shared" "3.5.3"
 
-"@vue/runtime-core@3.5.3":
+"@vue/runtime-core@^3.0.0", "@vue/runtime-core@3.5.3":
   "integrity" "sha512-5b2AQw5OZlmCzSsSBWYoZOsy75N4UdMWenTfDdI5bAzXnuVR7iR8Q4AOzQm2OGoA41xjk53VQKrqQhOz2ktWaw=="
   "resolved" "https://registry.npmmirror.com/@vue/runtime-core/-/runtime-core-3.5.3.tgz"
   "version" "3.5.3"
@@ -3898,6 +3898,14 @@
   "integrity" "sha512-wK2sCs4feiiJeFXn3zvY0p41mdU5VUgbgs1rNsc/y5ngFUijdWd+iIN8eoyuZHKB8xN6BL4PdWmzqFmxNg6V2w=="
   "resolved" "https://registry.npmmirror.com/easy-stack/-/easy-stack-1.0.1.tgz"
   "version" "1.0.1"
+
+"echarts@^5.5.1":
+  "integrity" "sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA=="
+  "resolved" "https://registry.npmjs.org/echarts/-/echarts-5.5.1.tgz"
+  "version" "5.5.1"
+  dependencies:
+    "tslib" "2.3.0"
+    "zrender" "5.6.0"
 
 "ee-first@1.1.1":
   "integrity" "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
@@ -8841,6 +8849,11 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.7.0.tgz"
   "version" "2.7.0"
 
+"tslib@2.3.0":
+  "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
+  "version" "2.3.0"
+
 "tsutils@^3.21.0":
   "integrity" "sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA=="
   "resolved" "https://registry.npmmirror.com/tsutils/-/tsutils-3.21.0.tgz"
@@ -9149,6 +9162,18 @@
   "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.10.tgz"
   "version" "0.14.10"
 
+"vue-demi@^0.13.11":
+  "integrity" "sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A=="
+  "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
+  "version" "0.13.11"
+
+"vue-echarts@^7.0.3":
+  "integrity" "sha512-/jSxNwOsw5+dYAUcwSfkLwKPuzTQ0Cepz1LxCOpj2QcHrrmUa/Ql0eQqMmc1rTPQVrh2JQ29n2dhq75ZcHvRDw=="
+  "resolved" "https://registry.npmjs.org/vue-echarts/-/vue-echarts-7.0.3.tgz"
+  "version" "7.0.3"
+  dependencies:
+    "vue-demi" "^0.13.11"
+
 "vue-eslint-parser@^8.0.0", "vue-eslint-parser@^8.0.1":
   "integrity" "sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g=="
   "resolved" "https://registry.npmmirror.com/vue-eslint-parser/-/vue-eslint-parser-8.3.0.tgz"
@@ -9196,7 +9221,7 @@
   "resolved" "https://registry.npmmirror.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@*", "vue@^2 || ^3.2.13", "vue@^2.5.17", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.0", "vue@^3.2.13", "vue@2 || 3", "vue@3.5.3":
+"vue@*", "vue@^2 || ^3.2.13", "vue@^2.5.17", "vue@^2.7.0 || ^3.1.1", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.0", "vue@^3.2.13", "vue@2 || 3", "vue@3.5.3":
   "integrity" "sha512-xvRbd0HpuLovYbOHXRHlSBsSvmUJbo0pzbkKTApWnQGf3/cu5Z39mQeA5cZdLRVIoNf3zI6MSoOgHUT5i2jO+Q=="
   "resolved" "https://registry.npmmirror.com/vue/-/vue-3.5.3.tgz"
   "version" "3.5.3"
@@ -9724,3 +9749,10 @@
     "is-ci" "^1.0.10"
     "normalize-path" "^1.0.0"
     "strip-indent" "^2.0.0"
+
+"zrender@5.6.0":
+  "integrity" "sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg=="
+  "resolved" "https://registry.npmjs.org/zrender/-/zrender-5.6.0.tgz"
+  "version" "5.6.0"
+  dependencies:
+    "tslib" "2.3.0"
