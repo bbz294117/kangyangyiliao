@@ -1,180 +1,181 @@
 <template>
-    <div class="login">
-        <div class="login-con">
-            <ul class="menu-tab">
-                <li v-for="(v) in MenueDate" :class="{ current: v.current }" :key="v.type" @click="clickMenu(v)">
-                    {{ v.txt }}
-                </li>
-            </ul>
-            <!-- 表单部分 -->
-            <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules"
-                label-width="auto" class="demo-ruleForm">
-                <el-form-item prop="pass">
-                    <label>邮箱</label>
-                    <el-input v-model="ruleForm.userName" type="text" autocomplete="off" />
-                </el-form-item>
-                <el-form-item prop="password">
-                    <label>密码</label>
-                    <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
-                </el-form-item>
-                <el-form-item prop="age" v-show="model==='register'">
-                    <label>重复密码</label>
-                    <el-input v-model.number="ruleForm.age" />
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" class="login_btn block" @click="submitForm(ruleFormRef)">
-                        {{ model==="login"?'登录':'注册' }}
-                    </el-button>
-                    <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
-                </el-form-item>
-            </el-form>
+    <div class="login" style="height: 100vh; display: flex ;overflow: hidden; align-items: center;justify-content: center;">
+        <div style="display: flex; background-color: white; width: 50%; height: 60%;border-radius: 10px;overflow: hidden;">
+            <div style="flex: 1;">
+                <img src="../../微信图片_20240817153954.png" alt="" style="width: 70%; align-items: center;">
+            </div>
+            <div style="flex: 1; display: flex; align-items: center;justify-content: center;">
+                <el-form :model="user" size="large" style="width: 80%;" :rules="rules" ref="loginRef">
+                    <div style="font-size: 20px; font-weight: bold;text-align: center; padding: 10px; margin-bottom: 20px;">
+                        康养医疗服务系统<br>欢迎登录
+                    </div>
+                    <el-form-item prop="username">
+                        <el-input placeholder="请输入手机号" v-model="user.username" />
+                    </el-form-item>
+                    <el-form-item prop="password">
+                        <el-input show-password placeholder="请输入密码" v-model="user.password" />
+                    </el-form-item>
+                    <el-form-item>
+                        <div style="display: flex;">
+                            <el-input placeholder="请输入验证码" v-model="sidentifyMode" clearable style="flex: 1;">
+                            </el-input>
+                            <div class="code" @click="refreshCode" style="flex: 1; height: 36px;">
+                                <SIdentify :identifyCode="identifyCode"></SIdentify>
+                            </div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button color="#32B67A" type="primary" style="width: 100%;" @click="login" @keyup.enter="login"><span style="color: white;" >登录</span></el-button>
+                    </el-form-item>
+                    <div style="display: flex;">
+                        <div style="flex: 1;">还没有账号？请 <span style="color: rgb(50, 182, 122); cursor: pointer;" @click="regist"> 注册</span>
+                        </div>
+                        <div style="flex: 1; text-align: right; color: rgb(50, 182, 122);" @click="forget"><span
+                                style="cursor: pointer;">忘记密码</span></div>
+                    </div>
+                </el-form>
+            </div>
+
+
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 
-import { reactive, ref } from 'vue'
-import { RouterLink,RouterView } from 'vue-router';
+import { reactive, ref, onMounted } from 'vue'
+import { RouterLink, RouterView } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
+import SIdentify from '../../components/Sidentify.vue'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
-const MenueDate = reactive([
-    { txt: "登录", current: true, type: "login" },
-    { txt: "注册", current: false, type: "register" }
-])
+let $router = useRouter()
+let sidentifyMode = ref('') //输入框验证码
+let identifyCode = ref('') //图形验证码
+let identifyCodes = ref('1234567890abcdefjhijklinopqrsduvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') //验证码出现的数字和字母
 
-let model = ref("login")
+const user = reactive({
+    username: '',
+    password: '',
 
-let clickMenu = (item: any) => {
-    MenueDate.forEach((elemt) => {
-        elemt.current = false
-    })
-    item.current = true
+});
 
-    model.value = item.type;
+//组件挂载
+onMounted(() => {
+    identifyCode.value = ''
+    makeCode(identifyCodes.value, 4)
+})
+
+// 生成随机数
+const randomNum = (min: number, max: number) => {
+    max = max + 1
+    return Math.floor(Math.random() * (max - min) + min)
+}
+// 随机生成验证码字符串
+const makeCode = (o: string | any[], l: number) => {
+    for (let i = 0; i < l; i++) {
+        identifyCode.value += o[randomNum(0, o.length)]
+    }
+}
+// 更新验证码
+const refreshCode = () => {
+    identifyCode.value = ''
+    makeCode(identifyCodes.value, 4)
 }
 
+const login = () => {
+    //验证验证码不为空
+    if (!sidentifyMode.value) {
+        ElMessage({ type: 'error', message: '验证码不能为空！' })
+        return
+    }
+    //验证验证码是否正确
+    if (sidentifyMode.value != identifyCode.value) {
+        ElMessage({ type: 'error', message: '验证码错误' })
+        refreshCode()
+        return
+    } else {
+        ElMessage({ type: 'success', message: '登录成功' })
+        $router.push('/main')
+    }
+}
 
+const regist = ()=> {
+    $router.push('/register')
+}
+
+const forget = ()=> {
+    $router.push('/forget')
+}
 
 const ruleFormRef = ref<FormInstance>()
 
-const checkAge = (rule: any, value: any, callback: any) => {
-    if (!value) {
-        return callback(new Error('Please input the age'))
-    }
-    setTimeout(() => {
-        if (!Number.isInteger(value)) {
-            callback(new Error('Please input digits'))
-        } else {
-            if (value < 18) {
-                callback(new Error('Age must be greater than 18'))
-            } else {
-                callback()
-            }
-        }
-    }, 1000)
-}
-
 const validatePass = (rule: any, value: any, callback: any) => {
-    if (value === '') {
-        callback(new Error('Please input the password'))
-    } else {
-        if (ruleForm.checkPass !== '') {
-            if (!ruleFormRef.value) return
-            ruleFormRef.value.validateField('checkPass')
-        }
-        callback()
+  if (value === '') {
+    callback(new Error('账号不能为空！'))
+  } else {
+    if (user.username !== '') {
+      if (!ruleFormRef.value) return
+      ruleFormRef.value.validateField('checkPass')
     }
+    callback()
+  }
 }
+
 const validatePass2 = (rule: any, value: any, callback: any) => {
-    if (value === '') {
-        callback(new Error('Please input the password again'))
-    } else if (value !== ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"))
-    } else {
-        callback()
+  if (value === '') {
+    callback(new Error('密码不能为空！'))
+  } else {
+    if (user.username !== '') {
+      if (!ruleFormRef.value) return
+      ruleFormRef.value.validateField('checkPass')
     }
+    callback()
+  }
 }
 
-const ruleForm = reactive({
-    userName: '',
-    password:'',
-    pass: '',
-    checkPass: '',
-    age: '',
+const rules = reactive<FormRules<typeof reactive>>({
+    username: [{ validator: validatePass, trigger: 'blur' }],
+    password: [{ validator: validatePass2, trigger: 'blur' }],
 })
 
-const rules = reactive<FormRules<typeof ruleForm>>({
-    pass: [{ validator: validatePass, trigger: 'blur' }],
-    checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-    age: [{ validator: checkAge, trigger: 'blur' }],
-})
 
-const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.validate((valid: any) => {
-        if (valid) {
-            console.log('submit!')
-        } else {
-            console.log('error submit!')
-        }
-    })
-}
-
-const resetForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.resetFields()
-}
 
 </script>
 
+
 <style lang="scss">
 .login {
-    background-color: rgb(147, 147, 220);
-    height: 100%;
+    background-color: rgb(50, 182, 122);
 }
 
-html,
-body,
-#app {
-    height: 100%;
-}
-
-.menu-tab {
-    text-align: center;
-
-    li {
-        display: inline-block;
-        width: 88px;
-        line-height: 36px;
-        font-size: 14px;
-        color: aliceblue;
-        border-radius: 2px;
-        cursor: pointer;
-
+.code {
+        text-align: center;
+        margin-left: 0px;
     }
-
-    .current {
-        background-color: aqua;
-    }
-}
-
-.demo-ruleForm{
-    width: 30%;
-    margin: 50px auto;
-    label{
-        display: block;
-        margin-bottom: 3px;
-        font-size: 14px;
-        color: aliceblue;
-    }
-    .block{
-        display: block;
-        width: 100%;
-    }
-    .login_btn{
-        margin-top: 20px;
-
-    }
-}
 </style>
+
+<!-- <div class="login-con">
+    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules"
+        label-width="auto" class="demo-ruleForm">
+        <el-form-item prop="pass">
+            <label>邮箱</label>
+            <el-input v-model="ruleForm.userName" type="text" autocomplete="off" />
+        </el-form-item>
+        <el-form-item prop="password">
+            <label>密码</label>
+            <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+        </el-form-item>
+        <el-form-item prop="age" v-show="model==='register'">
+            <label>重复密码</label>
+            <el-input v-model.number="ruleForm.age" />
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" class="login_btn block" @click="submitForm(ruleFormRef)">
+                {{ model==="login"?'登录':'注册' }}
+            </el-button>
+            <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+        </el-form-item>
+    </el-form>
+</div> -->
