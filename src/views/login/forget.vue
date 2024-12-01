@@ -7,7 +7,7 @@
             <div style="flex: 1; display: flex; align-items: center;justify-content: center;">
                 <el-form :model="user" size="large" style="width: 80%;" :rules="rules" ref="loginRef">
                     <div style="font-size: 20px; font-weight: bold;text-align: center; padding: 10px; margin-bottom: 20px;">
-                        康养医疗服务系统<br>欢迎登录
+                        康养医疗服务系统<br>忘记密码？
                     </div>
                     <el-form-item prop="username">
                         <el-input placeholder="请输入手机号" v-model="user.username" />
@@ -25,12 +25,12 @@
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <el-button color="#32B67A" type="primary" style="width: 100%;" @click="login" @keyup.enter="login"><span style="color: white;" >登录</span></el-button>
+                        <el-button color="#32B67A" type="primary" style="width: 100%;" @click="login"><span style="color: white;">登录</span></el-button>
                     </el-form-item>
                     <div style="display: flex;">
                         <div style="flex: 1;">还没有账号？请 <span style="color: rgb(50, 182, 122); cursor: pointer;" @click="regist"> 注册</span>
                         </div>
-                        <div style="flex: 1; text-align: right; color: rgb(50, 182, 122);" @click="forget"><span
+                        <div style="flex: 1; text-align: right; color: rgb(50, 182, 122);"><span
                                 style="cursor: pointer;">忘记密码</span></div>
                     </div>
                 </el-form>
@@ -53,7 +53,7 @@ import { useRouter } from 'vue-router'
 let $router = useRouter()
 let sidentifyMode = ref('') //输入框验证码
 let identifyCode = ref('') //图形验证码
-let identifyCodes = ref('1234567890abcdefjhijklinopqrsduvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') //验证码出现的数字和字母
+let identifyCodes = ref('1234567890abcdefjhijklinopqrsduvwxyz') //验证码出现的数字和字母
 
 const user = reactive({
     username: '',
@@ -105,10 +105,6 @@ const regist = ()=> {
     $router.push('/register')
 }
 
-const forget = ()=> {
-    $router.push('/forget')
-}
-
 const ruleFormRef = ref<FormInstance>()
 
 const validatePass = (rule: any, value: any, callback: any) => {
@@ -141,7 +137,6 @@ const rules = reactive<FormRules<typeof reactive>>({
 })
 
 
-
 </script>
 
 
@@ -155,27 +150,3 @@ const rules = reactive<FormRules<typeof reactive>>({
         margin-left: 0px;
     }
 </style>
-
-<!-- <div class="login-con">
-    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules"
-        label-width="auto" class="demo-ruleForm">
-        <el-form-item prop="pass">
-            <label>邮箱</label>
-            <el-input v-model="ruleForm.userName" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item prop="password">
-            <label>密码</label>
-            <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
-        </el-form-item>
-        <el-form-item prop="age" v-show="model==='register'">
-            <label>重复密码</label>
-            <el-input v-model.number="ruleForm.age" />
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" class="login_btn block" @click="submitForm(ruleFormRef)">
-                {{ model==="login"?'登录':'注册' }}
-            </el-button>
-            <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-        </el-form-item>
-    </el-form>
-</div> -->
