@@ -12,7 +12,7 @@
         <el-menu :collapse="isCollapse" router :default-openeds="['1', '3']"
           style="--el-menu-active-color:rgb(50, 182, 122) ;--el-menu-bg-color:white; background-color: rgb(246, 247, 249);"
           default-active="$route.path">
-          <el-menu-item index="1-1"><el-icon>
+          <el-menu-item index="/home"><el-icon>
               <HomeFilled />
             </el-icon><span v-show="!isCollapse">首页</span></el-menu-item>
           <el-sub-menu index="2">
@@ -20,8 +20,8 @@
               <el-icon><icon-menu /></el-icon><span v-show="!isCollapse">设备管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1" route="/login">Option 1</el-menu-item>
-              <el-menu-item index="2-2">Option 2</el-menu-item>
+              <el-menu-item index="/login">Option 1</el-menu-item>
+              <el-menu-item index="/machine">设备管理page</el-menu-item>
             </el-menu-item-group>
             <!-- <el-menu-item-group title="Group 2">
               <el-menu-item index="2-3">Option 3</el-menu-item>
@@ -38,8 +38,7 @@
               </el-icon><span v-show="!isCollapse">全局健康</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="3-1">Option 1</el-menu-item>
-              <el-menu-item index="3-2">Option 2</el-menu-item>
+              <el-menu-item index="/user">用户信息</el-menu-item>
             </el-menu-item-group>
             <el-sub-menu index="3-4">
               <template #title>Option 4</template>
@@ -100,59 +99,12 @@
 
       </el-header>
 
-      <el-main>
-
-
-        <el-card style="max-width: 600px;margin: 10px;">
-          <div class="mb-4">
-            <el-button>Default</el-button>
-            <el-button type="primary">Primary</el-button>
-            <el-button type="success">Success</el-button>
-            <el-button type="info">Info</el-button>
-            <el-button type="warning">Warning</el-button>
-            <el-button type="danger">Danger</el-button>
-          </div>
-        </el-card>
-
-        <el-card style="max-width: 600px;margin: 10px;">
-          <div class="mb-4">
-            <el-button plain>Plain</el-button>
-            <el-button type="primary" plain>Primary</el-button>
-            <el-button type="success" plain>Success</el-button>
-            <el-button type="info" plain>Info</el-button>
-            <el-button type="warning" plain>Warning</el-button>
-            <el-button type="danger" plain>Danger</el-button>
-          </div>
-        </el-card>
-
-        <el-card style="max-width: 600px;margin: 10px;">
-          <div class="mb-4">
-            <el-button round>Round</el-button>
-            <el-button type="primary" round>Primary</el-button>
-            <el-button type="success" round>Success</el-button>
-            <el-button type="info" round>Info</el-button>
-            <el-button type="warning" round>Warning</el-button>
-            <el-button type="danger" round>Danger</el-button>
-          </div>
-        </el-card>
-
-        <el-card style="max-width: 600px;margin: 10px;">
-          <div>
-            <el-button :icon="Search" circle />
-            <el-button type="primary" :icon="Edit" circle />
-            <el-button type="success" :icon="Check" circle />
-            <el-button type="info" :icon="Message" circle />
-            <el-button type="warning" :icon="Star" circle />
-            <el-button type="danger" :icon="Delete" circle />
-          </div>
-        </el-card>
-
-        <el-card style="max-width: 480px;margin: 10px;">
-          <p v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</p>
-          <span>饿了</span>
-        </el-card>
+      <el-main> <!--   主体 -->
+        <router-view />
 
       </el-main>
+
+
     </el-container>
   </el-container>
 </template>
