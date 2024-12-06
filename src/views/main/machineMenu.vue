@@ -2,19 +2,56 @@
   <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
   <div style="display: flex">
 
-    <el-card style="max-width: 480px; flex: 1;"><div id="main" style="width: 300px; height: 400px; flex: 1;"></div></el-card>
-    <el-card style="max-width: 800px; flex: 1;"><div id="main1" style="width: 600px; height: 400px; flex: 1;"></div></el-card>
+    <el-card style="max-width: 480px; flex: 1;">
+      <div id="main" style="width: 300px; height: 400px; flex: 1;"></div>
+    </el-card>
+    <el-card style="max-width: 800px; flex: 1;">
+      <div id="main1" style="width: 600px; height: 400px; flex: 1;"></div>
+    </el-card>
 
   </div>
+
+  <el-row :gutter="20">
+    <el-col :span="16"><el-card></el-card>
+      <el-row :gutter="16" style="margin-top:10px;">
+        <el-col :span="12"><el-card style="height: 200px"></el-card></el-col>
+        <el-col :span="12"><el-card style="height: 200px"></el-card></el-col>
+      </el-row>
+    </el-col>
+    <el-col :span="8">
+      <el-card></el-card>
+      <el-card style="margin-top:10px;height: 200px"></el-card>
+    </el-col>
+  </el-row>
+
+  <div class="card-wrap">
+    <el-card class="card-context card-add">+</el-card>
+    <!-- vue的遍历，目的是创造data.length个数的card -->
+    <el-card class="card-context"
+        v-for="item in data"
+        :key="item.id">
+        card{{ item.name }}
+    </el-card>
+</div>
+
 </template>
 
 <script lang="ts">
+
+
 
 //按需引入
 import { defineComponent, onMounted } from "vue";
 
 //引入创建的echarts.ts文件
-import echarts from "../../store/echart";
+
+import * as echarts from 'echarts';
+
+
+interface CardItem {
+        id: number;
+        name: string;
+      }
 
 export default defineComponent({
   setup() {
@@ -41,6 +78,8 @@ export default defineComponent({
 
       //还可以这样一起写
       // var myChart = echarts.init(document.getElementById("main")!);
+
+
 
       // 指定图表的配置项和数据
       var option = {
@@ -168,7 +207,56 @@ export default defineComponent({
 
     return {};
   },
+
+  data() {
+    return {
+      // 使用类型注解
+      data: [
+        { id: 1, name: 'Card 1' },
+        { id: 2, name: 'Card 2' },
+        { id: 3, name: 'Card 3' },
+        { id: 4, name: 'Card 4' },
+        { id: 5, name: 'Card 5' },
+        { id: 6, name: 'Card 6' },
+        { id: 7, name: 'Card 7' },
+        { id: 8, name: 'Card 8' },
+      ] as CardItem[], // 将数组声明为 CardItem 类型的数组
+    };
+  },
 });
+
+
 </script>
 
-<style scoped></style>
+<style scoped>
+.card-wrap {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+/* .survey-card-context {
+
+  flex: 1;
+  width: 300px;
+  min-width: 300px;
+  height: 210px;
+  margin: 10px;
+} */
+
+.card-context {
+  padding: 100px;
+  margin: 5px;
+  border: 1px solid #ddd;
+
+  /* flex: 1;
+  width: 300px;
+  min-width: 300px;
+  height: 210px;
+  margin: 10px; */
+}
+.card-add {
+  cursor: pointer;
+}
+</style>

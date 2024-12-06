@@ -27,17 +27,22 @@ const routes: Array<RouteRecordRaw> = [
 
   },
   {
-    path: '/main',
+    path: '/',
     name: 'main',
-    component: () => import('../views/main/mainMage.vue')
+    component: () => import('../views/main/mainMage.vue'),
+    children: [
+      { path: 'home', name: 'home',component: () => import('../views/main/home.vue') },
+      { path: 'user', name: 'user',component: () => import('../views/main/User.vue') },
+      { path: 'machine', name: 'machine',component: () => import('../views/main/machineMenu.vue') },
+    ],
 
   },
-  {
-    path: '/machine',
-    name: 'machine',
-    component: () => import('../views/main/machineMenu.vue')
+  // {
+  //   path: '/machine',
+  //   name: 'machine',
+  //   component: () => import('../views/main/machineMenu.vue')
 
-  },
+  // },
 ]
 
 const router = createRouter({
